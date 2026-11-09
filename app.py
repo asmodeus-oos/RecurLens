@@ -289,6 +289,109 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# --- DUAL-PERSPECTIVE FINAL VERDICT SECTION ---
+st.markdown("---")
+st.subheader("⚖️ Final RecurLens Verdict")
+
+tab_medical, tab_patient = st.tabs([
+    "🩺 Medical Formulation (For Oncologists & Tumor Board)",
+    "👤 Plain Language (For Patients & Families)"
+])
+
+# Determine Concordance State
+if cts5_tier == "Low Risk" and risk_5yr_int < 0.10:
+    concordance_state = "Concordant Low-Risk Luminal A Phenotype"
+    concordance_color = "#28a745"
+elif cts5_tier == "High Risk" and risk_5yr_int >= 0.15:
+    concordance_state = "Concordant High-Risk Luminal B Phenotype"
+    concordance_color = "#dc3545"
+elif cts5_tier == "Low Risk" and risk_5yr_int >= 0.10:
+    concordance_state = "Discordant: Genomic Escalation (Hidden Molecular High Risk)"
+    concordance_color = "#fd7e14"
+else:
+    concordance_state = "Discordant: Genomic De-escalation (Indolent Biology Despite Staging)"
+    concordance_color = "#17a2b8"
+
+with tab_medical:
+    st.markdown(f"""
+#### Diagnostic & Multimodal Prognostic Synthesis
+* **Disease Staging:** Early-Stage ER+/HER2- Invasive Breast Carcinoma (pT{1 if tumor_size_mm<=20 else 2} pN{0 if nodes==0 else 1}, Nottingham Histologic Grade {grade}).
+* **Genomic-Anatomic Concordance:** <span style="color:{concordance_color}; font-weight:700;">{concordance_state}</span>.
+* **Prognostic Estimates:**
+  * Standard Clinical Baseline (CTS5): **{cts5_score:.2f}** ({cts5_tier}). Projected 5-year failure rate = **{risk_5yr_clin*100:.1f}%**.
+  * RecurLens Integrated Multimodal Model C: Projected 5-year failure rate = **{risk_5yr_int*100:.1f}%** (Risk shift: **{delta_risk:+.1f}%**).
+  * 10-Year Extended Failure Probability: **{risk_10yr_int*100:.1f}%** (late recurrence driven by baseline anatomical stage, not early transcriptomics).
+
+#### Pharmacotherapeutic Recommendations (ASCO 2022 / NCCN v2.2024 Guidelines)
+1. **Adjuvant Endocrine Therapy:** Prescribe 5–10 years of systemic endocrine therapy (Aromatase Inhibitor ± Ovarian Function Suppression for premenopausal; AI monotherapy for postmenopausal).
+2. **Adjuvant Cytotoxic Chemotherapy Decision:**
+   * *Projected Absolute Risk Reduction (ARR):* **+{arr_5yr:.1f}%** at 5 years (NNT = **{nnt_5yr}**).
+   * *Recommendation:* {"Cytotoxic chemotherapy provides negligible absolute benefit (< 1.5%) and is contraindicated to spare toxicities." if risk_5yr_int < 0.10 else ("Intermediate benefit zone. Chemotherapy decision should incorporate patient age, menopausal status, and functional performance score." if risk_5yr_int <= 0.15 else "Adjuvant taxane/anthracycline-based cytotoxic chemotherapy is strongly indicated prior to endocrine therapy.")}
+3. **Primary Biological Drivers:**
+   * Mitotic & Checkpoint Signaling: `CENPF` ({cenpf:+.2f} z-score), `MKI67` ({mki67:+.2f} z-score), `AURKA` ({aurka:+.2f} z-score).
+   * Extracellular Remodeling & Invasion: `MMP11` ({mmp11:+.2f} z-score).
+   * Hormone Receptor Sensitivity: `ESR1` ({esr1:+.2f} z-score).
+    """, unsafe_allow_html=True)
+
+with tab_patient:
+    safe_survivors = int(round(100.0 - (risk_5yr_int * 100.0)))
+    chemo_saved = max(1, int(round(arr_5yr)))
+    
+    if risk_5yr_int < 0.10:
+        plain_verdict = "Low Risk — Gentle, Slow-Growing Tumor (Chemotherapy Likely Not Needed)"
+        plain_summary = (
+            "Your cancer cells are dividing slowly and look very similar to normal, healthy breast cells. "
+            "Because the tumor is gentle, taking daily hormone-blocking pills gives you nearly the same protection "
+            "as doing chemotherapy, without any of the heavy side effects."
+        )
+        chemo_advice = (
+            "Chemotherapy would only give you a tiny sliver of extra protection (less than 1–2%), "
+            "so doctors recommend **skipping chemotherapy** and sticking to hormone pills."
+        )
+    elif risk_5yr_int <= 0.15:
+        plain_verdict = "Medium / Borderline Risk — A Thoughtful Conversation with Your Doctor"
+        plain_summary = (
+            "Your cancer is in the middle zone. Some features are calm, but others show signs of activity. "
+            "Hormone pills are definitely needed, but adding chemotherapy may offer a modest extra layer of defense."
+        )
+        chemo_advice = (
+            f"Adding chemotherapy could prevent about {chemo_saved} extra recurrence in 100 women. "
+            "You and your doctor should discuss whether this benefit is worth the temporary fatigue and side effects."
+        )
+    else:
+        plain_verdict = "Higher Risk — Fast-Growing Tumor (Chemotherapy Strongly Recommended)"
+        plain_summary = (
+            "Your cancer cells have active engines running: they are dividing faster and are more eager to spread. "
+            "Hormone pills alone might not be enough to catch all stray cells."
+        )
+        chemo_advice = (
+            f"Chemotherapy will actively target fast-dividing cells and is estimated to protect an extra "
+            f"**{chemo_saved} out of 100 women**. Doing chemotherapy first, followed by hormone pills, "
+            "gives you the best chance of staying cancer-free."
+        )
+
+    st.markdown(f"""
+#### 💡 The Bottom Line in Plain English
+**{plain_verdict}**
+
+{plain_summary}
+
+---
+
+#### 📊 Understanding Your Numbers (Out of 100 Women Like You)
+* If **100 women** with tumors just like yours take standard hormone pills:
+  * **About {safe_survivors} women** will stay completely cancer-free for the next 5 years.
+  * **About {100 - safe_survivors} women** might see their cancer return without additional treatment.
+* **What Chemotherapy Does:** {chemo_advice}
+
+---
+
+#### ❓ 3 Questions to Take to Your Next Doctor Appointment
+1. *"My RecurLens report shows a 5-year recurrence risk of {risk_5yr_int*100:.1f}%. Does this mean I can safely avoid chemotherapy?"*
+2. *"My tumor's cell division speed (Ki-67/CENPF) is {mki67:+.1f}. Does this match what my biopsy report found?"*
+3. *"Which hormone pill (Tamoxifen or an Aromatase Inhibitor) fits my lifestyle and age best for the next 5 years?"*
+    """)
+
 # --- DISPLAY ROW 3: CHARTS & SIMULATION ---
 chart_col1, chart_col2 = st.columns(2)
 
