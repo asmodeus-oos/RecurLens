@@ -211,28 +211,53 @@ st.markdown("""
         font-weight: 700;
     }
 
-    /* Streamlit tabs override in light mode */
+    /* Streamlit tabs override in light mode: Padded rounded tabs, borderless container */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-        border-bottom: 2px solid #edf0f2;
-        padding-bottom: 4px;
-        margin-bottom: 16px;
+        gap: 12px !important;
+        border: none !important;
+        border-bottom: none !important;
+        padding-top: 4px !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 14px !important;
+        background-color: transparent !important;
+    }
+    .stTabs [data-baseweb="tab-border"] {
+        display: none !important;
+        height: 0px !important;
+        border: none !important;
+    }
+    .stTabs [data-baseweb="tab-highlight"] {
+        display: none !important;
+        height: 0px !important;
+        background-color: transparent !important;
     }
     .stTabs [data-baseweb="tab"] {
-        background: #f4f5f7;
-        border-radius: 12px;
-        padding: 8px 18px;
-        font-weight: 700;
-        font-size: 13px;
-        color: #6f767e !important;
-        border: 1px solid #eef0f2;
-        transition: all 0.2s ease;
+        background-color: #f1f3f5 !important;
+        border-radius: 18px !important;
+        padding: 12px 24px !important;
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+        color: #555d67 !important;
+        border: 1px solid #e9ecef !important;
+        transition: all 0.2s ease !important;
+        height: auto !important;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: #e9ecef !important;
+        color: #111417 !important;
+        border-color: #dee2e6 !important;
     }
     .stTabs [aria-selected="true"] {
-        background: #1b5e3a !important;
+        background-color: #1b5e3a !important;
         color: #ffffff !important;
         border: 1px solid #1b5e3a !important;
-        box-shadow: 0 2px 8px rgba(27, 94, 58, 0.18);
+        box-shadow: 0 3px 12px rgba(27, 94, 58, 0.20) !important;
+    }
+    .stTabs [aria-selected="true"] * {
+        color: #ffffff !important;
+    }
+    .stTabs [aria-selected="false"] * {
+        color: #555d67 !important;
     }
 
     /* Verdict Card Styles */
