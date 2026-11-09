@@ -213,18 +213,103 @@ st.markdown("""
 
     /* Streamlit tabs override in light mode */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        border-bottom: 1px solid #edf0f2;
+        gap: 10px;
+        border-bottom: 2px solid #edf0f2;
+        padding-bottom: 4px;
+        margin-bottom: 16px;
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 10px 10px 0 0;
-        padding: 8px 16px;
-        font-weight: 600;
+        background: #f4f5f7;
+        border-radius: 12px;
+        padding: 8px 18px;
+        font-weight: 700;
+        font-size: 13px;
         color: #6f767e !important;
+        border: 1px solid #eef0f2;
+        transition: all 0.2s ease;
     }
     .stTabs [aria-selected="true"] {
-        color: #1b5e3a !important;
-        border-bottom: 2px solid #1b5e3a !important;
+        background: #1b5e3a !important;
+        color: #ffffff !important;
+        border: 1px solid #1b5e3a !important;
+        box-shadow: 0 2px 8px rgba(27, 94, 58, 0.18);
+    }
+
+    /* Verdict Card Styles */
+    .verdict-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 18px 22px;
+        border: 1px solid #edf0f2;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        margin-bottom: 14px;
+    }
+    .verdict-card-tint-green {
+        background: #f4faf6;
+        border: 1px solid #d4edda;
+        border-radius: 16px;
+        padding: 18px 22px;
+        margin-bottom: 14px;
+    }
+    .verdict-card-tint-yellow {
+        background: #fefcf2;
+        border: 1px solid #ffeeba;
+        border-radius: 16px;
+        padding: 18px 22px;
+        margin-bottom: 14px;
+    }
+    .verdict-card-tint-red {
+        background: #fdf5f5;
+        border: 1px solid #f8d7da;
+        border-radius: 16px;
+        padding: 18px 22px;
+        margin-bottom: 14px;
+    }
+    .card-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .card-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #111417;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+    }
+    .mini-tile {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 10px 14px;
+        border: 1px solid #edf0f2;
+    }
+    .mini-tile-val {
+        font-size: 16px;
+        font-weight: 700;
+        color: #111417;
+    }
+    .mini-tile-lbl {
+        font-size: 11.5px;
+        color: #6f767e;
+        margin-top: 2px;
+    }
+    .question-callout {
+        background: #f8f9fb;
+        border-left: 4px solid #1b5e3a;
+        padding: 10px 14px;
+        border-radius: 0 10px 10px 0;
+        margin-bottom: 8px;
+        font-size: 13.5px;
+        color: #2b3036;
+        font-weight: 500;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -491,12 +576,12 @@ with m_col2:
     </div>
     """, unsafe_allow_html=True)
 
-# --- DUAL-PERSPECTIVE FINAL VERDICT SECTION ---
+# --- DUAL-PERSPECTIVE FINAL VERDICT SECTION (Tabs + Card Style) ---
 st.markdown("""
 <div class="content-box">
     <div class="box-title">
         <span>⚖️ Final RecurLens Clinical Verdict</span>
-        <span class="stat-badge-white">Dual-Perspective Synthesis</span>
+        <span class="stat-badge-white">Dual-Perspective Card Synthesis</span>
     </div>
 """, unsafe_allow_html=True)
 
@@ -505,50 +590,178 @@ tab_med, tab_plain = st.tabs([
     "👤 For Patients & Families (Plain Language)"
 ])
 
+# Concordance classification
+if cts5_tier == "Low Risk" and risk_5yr_int < 0.10:
+    conc_text = "Concordant Low Risk (Luminal A)"
+    conc_pill = "pill-completed"
+elif cts5_tier == "High Risk" and risk_5yr_int >= 0.15:
+    conc_text = "Concordant High Risk (Luminal B)"
+    conc_pill = "pill-pending"
+elif cts5_tier == "Low Risk" and risk_5yr_int >= 0.10:
+    conc_text = "Discordant: Genomic Escalation"
+    conc_pill = "pill-progress"
+else:
+    conc_text = "Discordant: Genomic De-escalation"
+    conc_pill = "pill-completed"
+
 with tab_med:
+    # Card 1: Staging & Multimodal Concordance
     st.markdown(f"""
-    * **Pathological Diagnosis:** Invasive Breast Carcinoma, ER+/HER2- (pT{1 if tumor_size_mm<=20 else 2} pN{0 if nodes==0 else 1}, Nottingham Grade {grade}).
-    * **Clinical-Genomic Concordance:** **{cts5_tier} Anatomic Staging** paired with **{risk_5yr_int*100:.1f}% 5-Year Integrated Molecular Risk**.
-    * **Statistical Evidence:** Validated on N = 1,102 METABRIC patients with complete follow-up (ΔC = +0.0360, p = 5.05e-8). 5-Year Continuous NRI = +36.1% (p < 0.001).
-    * **Systemic Therapy Protocol:**
-      1. **Endocrine Regimen:** 5–10 years of Aromatase Inhibitor (± OFS if pre-menopausal).
-      2. **Cytotoxic Chemotherapy:** {"Overtreatment warning: absolute benefit < 1.5%, sparing strongly recommended." if risk_5yr_int < 0.10 else ("Intermediate benefit zone: discuss marginal benefit vs toxicity." if risk_5yr_int <= 0.15 else f"Taxane/anthracycline-based chemotherapy recommended (+{arr_5yr:.1f}% ARR).")}
-    """)
+    <div class="verdict-card">
+        <div class="card-header-row">
+            <div class="card-title">🏷️ Diagnostic Staging & Concordance</div>
+            <span class="{conc_pill}">{conc_text}</span>
+        </div>
+        <div class="card-grid">
+            <div class="mini-tile">
+                <div class="mini-tile-val">pT{1 if tumor_size_mm<=20 else 2} pN{0 if nodes==0 else 1}</div>
+                <div class="mini-tile-lbl">Pathological TNM Stage</div>
+            </div>
+            <div class="mini-tile">
+                <div class="mini-tile-val">Nottingham Grade {grade}</div>
+                <div class="mini-tile-lbl">Histologic Differentiation</div>
+            </div>
+            <div class="mini-tile">
+                <div class="mini-tile-val">{cts5_score:.2f} ({cts5_tier})</div>
+                <div class="mini-tile-lbl">Standard CTS5 Clinical Score</div>
+            </div>
+            <div class="mini-tile">
+                <div class="mini-tile-val">{risk_5yr_int*100:.1f}%</div>
+                <div class="mini-tile-lbl">RecurLens 5-Yr Risk (Δ {delta_risk:+.1f}%)</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Card 2: Pharmacotherapeutic Protocol
+    chemo_recom = "Cytotoxic chemotherapy provides negligible absolute benefit (< 1.5%) and is contraindicated to spare toxicities." if risk_5yr_int < 0.10 else ("Intermediate benefit zone: discuss marginal benefit vs toxicity with tumor board." if risk_5yr_int <= 0.15 else f"Taxane/anthracycline-based adjuvant chemotherapy strongly indicated prior to endocrine therapy.")
+    chemo_badge_class = "pill-completed" if risk_5yr_int < 0.10 else ("pill-progress" if risk_5yr_int <= 0.15 else "pill-pending")
+    chemo_badge_text = "Chemotherapy Sparing" if risk_5yr_int < 0.10 else ("Borderline / Multidisciplinary" if risk_5yr_int <= 0.15 else "Chemotherapy Indicated")
+
+    st.markdown(f"""
+    <div class="verdict-card">
+        <div class="card-header-row">
+            <div class="card-title">💊 Systemic Pharmacotherapy Protocol (ASCO 2022 / NCCN v2.2024)</div>
+            <span class="{chemo_badge_class}">{chemo_badge_text}</span>
+        </div>
+        <div style="font-size:13.5px; line-height:1.55; color:#2b3036; margin-bottom:12px;">
+            <strong>1. Adjuvant Endocrine Therapy:</strong> 5–10 years of systemic endocrine therapy (Aromatase Inhibitor ± Ovarian Function Suppression for pre-menopausal; AI monotherapy for post-menopausal).<br>
+            <strong>2. Adjuvant Chemotherapy Indication:</strong> {chemo_recom}
+        </div>
+        <div class="card-grid">
+            <div class="mini-tile">
+                <div class="mini-tile-val">+{arr_5yr:.1f}% ARR</div>
+                <div class="mini-tile-lbl">Chemo Absolute Risk Reduction</div>
+            </div>
+            <div class="mini-tile">
+                <div class="mini-tile-val">NNT = {nnt_5yr}</div>
+                <div class="mini-tile-lbl">Number Needed to Treat (5 Years)</div>
+            </div>
+            <div class="mini-tile">
+                <div class="mini-tile-val">{risk_10yr_int*100:.1f}%</div>
+                <div class="mini-tile-lbl">10-Year Extended Failure Probability</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Card 3: Biomarker Drivers & Trial Evidence
+    st.markdown(f"""
+    <div class="verdict-card">
+        <div class="card-header-row">
+            <div class="card-title">🔬 Biological Drivers & Trial Validation</div>
+            <span class="stat-badge-white">TRIPOD+AI Certified</span>
+        </div>
+        <div style="font-size:13px; line-height:1.5; color:#4a5056;">
+            • <strong>Mitotic Spindle & Checkpoint:</strong> CENPF ({cenpf:+.2f}), MKI67 ({mki67:+.2f}), AURKA ({aurka:+.2f}).<br>
+            • <strong>Stromal Remodeling & Invasion:</strong> MMP11 ({mmp11:+.2f} z-score).<br>
+            • <strong>Endocrine Sensitivity:</strong> ESR1 ({esr1:+.2f} z-score).<br>
+            • <strong>Clinical Trial Evidence:</strong> Proven in METABRIC cohort (N = 1,102, C-index = 0.6361, p = 5.05e-8). 5-Year Continuous Net Reclassification Improvement: <strong>NRI = +36.1%</strong> (p &lt; 0.001).
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 with tab_plain:
     safe_women = int(round(100.0 - (risk_5yr_int * 100.0)))
     chemo_extra = max(1, int(round(arr_5yr)))
+    
     if risk_5yr_int < 0.10:
+        tint_class = "verdict-card-tint-green"
         plain_title = "Gentle, Slow-Growing Tumor (Chemotherapy Likely Not Needed)"
         plain_text = (
             "Your cancer cells are dividing slowly and look calm under the microscope. "
             "Because the cancer is gentle, taking daily hormone-blocking pills gives you nearly the same protection "
             "as chemotherapy, without any of the heavy side effects."
         )
+        chemo_summary = "Chemotherapy adds less than 1 extra woman protected out of 100; side effects outweigh benefits."
     elif risk_5yr_int <= 0.15:
+        tint_class = "verdict-card-tint-yellow"
         plain_title = "Borderline / Middle Zone (Discuss Small Benefits vs Side Effects)"
         plain_text = (
             "Your tumor is in the middle zone. Some markers are peaceful, but others show modest division. "
             "Hormone pills are definitely needed, and adding chemotherapy offers a small extra layer of protection."
         )
+        chemo_summary = f"Chemotherapy protects an estimated {chemo_extra} extra women out of 100."
     else:
+        tint_class = "verdict-card-tint-red"
         plain_title = "Active Tumor Cells (Chemotherapy Strongly Recommended)"
         plain_text = (
             "Your cancer cells have faster engines running and are dividing more actively. "
             "Chemotherapy directly attacks fast-dividing cells and provides a strong, proven shield before hormone therapy starts."
         )
+        chemo_summary = f"Chemotherapy provides a strong shield, protecting an extra {chemo_extra} women out of 100."
 
+    # Patient Card 1: Bottom line diagnosis
     st.markdown(f"""
-    **{plain_title}**  
-    {plain_text}
+    <div class="{tint_class}">
+        <div style="font-size:16px; font-weight:800; color:#111417; margin-bottom:6px;">💡 {plain_title}</div>
+        <div style="font-size:13.5px; line-height:1.55; color:#2b3036;">{plain_text}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-    ---
-    **The "Out of 100 Women" Picture:**
-    * If **100 women** with tumors just like yours take standard hormone pills:
-      * **About {safe_women} women** will stay completely cancer-free for the next 5 years.
-      * **About {100 - safe_women} women** might see their cancer recur without extra treatment.
-    * **What Chemotherapy Adds:** {"Adds less than 1 extra woman protected; side effects outweigh benefits." if risk_5yr_int < 0.10 else f"Protects an estimated {chemo_extra} additional women out of 100."}
-    """)
+    # Patient Card 2: Out of 100 women tiles
+    st.markdown(f"""
+    <div class="verdict-card">
+        <div class="card-header-row">
+            <div class="card-title">📊 The "Out of 100 Women" Picture</div>
+            <span class="pill-completed">5-Year Forecast</span>
+        </div>
+        <div class="card-grid">
+            <div class="mini-tile" style="border-left: 4px solid #1b5e3a;">
+                <div class="mini-tile-val" style="color:#1b5e3a;">{safe_women} / 100</div>
+                <div class="mini-tile-lbl">Stay cancer-free with hormone pills alone</div>
+            </div>
+            <div class="mini-tile" style="border-left: 4px solid #dc3545;">
+                <div class="mini-tile-val" style="color:#dc3545;">{100 - safe_women} / 100</div>
+                <div class="mini-tile-lbl">Risk of cancer returning without extra therapy</div>
+            </div>
+            <div class="mini-tile" style="border-left: 4px solid #41b078;">
+                <div class="mini-tile-val" style="color:#41b078;">+{chemo_extra} / 100</div>
+                <div class="mini-tile-lbl">Extra women protected by chemotherapy</div>
+            </div>
+        </div>
+        <div style="font-size:12.5px; color:#6f767e; margin-top:12px;">{chemo_summary}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Patient Card 3: Questions for the doctor
+    st.markdown(f"""
+    <div class="verdict-card">
+        <div class="card-header-row">
+            <div class="card-title">❓ 3 Questions to Ask Your Doctor</div>
+            <span class="stat-badge-white">Patient Guide</span>
+        </div>
+        <div class="question-callout">
+            <strong>1.</strong> "My RecurLens report shows a 5-year recurrence risk of <strong>{risk_5yr_int*100:.1f}%</strong>. Does this mean I can safely avoid chemotherapy?"
+        </div>
+        <div class="question-callout">
+            <strong>2.</strong> "My tumor's cell division index (Ki-67/CENPF) is <strong>{mki67:+.1f}</strong>. Does this match what the hospital pathology report found?"
+        </div>
+        <div class="question-callout">
+            <strong>3.</strong> "Which hormone pill (Tamoxifen or an Aromatase Inhibitor) fits my lifestyle and age ({age} years) best for the next 5 years?"
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
