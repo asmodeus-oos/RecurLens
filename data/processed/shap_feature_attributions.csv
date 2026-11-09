@@ -1,0 +1,64 @@
+Feature,Type,Mean_Abs_SHAP,Biological_Pathway_Context,Rank
+TUMOR_SIZE,Clinical,0.19315205451126027,Clinicopathological Staging Parameter,1
+MMP11,Molecular,0.1927249227752114,Hallmark Extracellular Matrix Degradation / Stromal Invasion,2
+CENPF,Molecular,0.15611355741845906,Hallmark Centromere / Chromosome Segregation,3
+MKI67,Molecular,0.11030864854976526,Hallmark G2M Checkpoint / Mitosis,4
+GAPDH,Molecular,0.09903903205501931,Molecular / Transcriptomic Profile,5
+AGE_AT_DIAGNOSIS,Clinical,0.08148690321782998,Clinicopathological Staging Parameter,6
+MLPH,Molecular,0.0638696141869304,Molecular / Transcriptomic Profile,7
+EXO1,Molecular,0.061891241006866306,Hallmark DNA Mismatch Repair,8
+ACTB,Molecular,0.05457044905442573,Molecular / Transcriptomic Profile,9
+GPR160,Molecular,0.054044188190074165,Molecular / Transcriptomic Profile,10
+MAPT,Molecular,0.04656456746522861,Hallmark Microtubule Stability / Luminal A,11
+BLVRA,Molecular,0.045000484418578485,Molecular / Transcriptomic Profile,12
+MYC,Molecular,0.038764984218239734,Molecular / Transcriptomic Profile,13
+SFRP1,Molecular,0.0385426215597662,Hallmark Wnt Signaling Regulation,14
+ORC6,Molecular,0.03739030925342491,Hallmark DNA Pre-Replication,15
+PTTG1,Molecular,0.035934432314488465,Hallmark Securin / Chromosome Stability,16
+CCNB1,Molecular,0.0325942719679295,Hallmark Cell Cycle / G2-M Phase,17
+BAG1,Molecular,0.032412659598152586,Hallmark Anti-Apoptosis / Chaperone,18
+BCL2,Molecular,0.03215582236697238,Hallmark Anti-Apoptosis / Estrogen Dependent,19
+GRB7,Molecular,0.029165734207889787,Hallmark 17q12 Amplicon / RTK Signaling,20
+SCUBE2,Molecular,0.029158077704644892,Hallmark Estrogen-Regulated Cell Adhesion,21
+MELK,Molecular,0.028814549961775144,Hallmark Proliferation Signaling,22
+KIF2C,Molecular,0.027632494728527135,Hallmark Mitotic Spindle Motor,23
+LYMPH_NODES_EXAMINED_POSITIVE,Clinical,0.027348548889975614,Clinicopathological Staging Parameter,24
+NUF2,Molecular,0.02729679026414957,Hallmark Kinetochore Complex,25
+MDM2,Molecular,0.026809003549017017,Molecular / Transcriptomic Profile,26
+KRT5,Molecular,0.025145680233190967,Hallmark Basal / Cytokeratin 5,27
+NAT1,Molecular,0.024793930588667776,Hallmark Luminal Differentiation / Metabolism,28
+RRM2,Molecular,0.023859899038937604,Hallmark DNA Synthesis & Ribonucleotide Reductase,29
+UBE2T,Molecular,0.022502780314914605,Hallmark DNA Crosslink Repair,30
+FGFR4,Molecular,0.02222372969750186,Hallmark Fibroblast Growth Factor Signaling,31
+AURKA,Molecular,0.019036608826545006,Hallmark G2M Checkpoint / Centrosome,32
+UCHL5,Molecular,0.0183651807539765,Molecular / Transcriptomic Profile,33
+CEP55,Molecular,0.018057094391225877,Hallmark Cytokinesis Regulation,34
+CDC6,Molecular,0.01791203820978316,Hallmark DNA Replication Origin,35
+TFRC,Molecular,0.016548410588842367,Molecular / Transcriptomic Profile,36
+MYBL2,Molecular,0.015197065939073195,Hallmark E2F Targets / Proliferation,37
+CD68,Molecular,0.014872462936971649,Hallmark Tumor-Associated Macrophages,38
+CDH3,Molecular,0.013074939221452996,Hallmark P-Cadherin / Cell Adhesion,39
+MIA,Molecular,0.012855628334967536,Molecular / Transcriptomic Profile,40
+PGR,Molecular,0.012590105099411152,Hallmark Progesterone Receptor Signaling,41
+CCNE1,Molecular,0.011734356665995259,Molecular / Transcriptomic Profile,42
+GUSB,Molecular,0.011601778910997774,Molecular / Transcriptomic Profile,43
+SLC39A6,Molecular,0.01136955321149263,Molecular / Transcriptomic Profile,44
+ERBB2,Molecular,0.010643150700615028,Hallmark HER2 Amplicon / Receptor Kinase,45
+EGFR,Molecular,0.009864865494118075,Hallmark EGFR / Basal-like Signaling,46
+NDC80,Molecular,0.009801669729339104,Hallmark Kinetochore Complex,47
+KRT14,Molecular,0.009169396590863502,Hallmark Basal / Cytokeratin 14,48
+CXXC5,Molecular,0.007456283927175697,Molecular / Transcriptomic Profile,49
+TMEM45B,Molecular,0.006984696221643042,Molecular / Transcriptomic Profile,50
+RPLP0,Molecular,0.006586998001417863,Molecular / Transcriptomic Profile,51
+KRT17,Molecular,0.006017086047465638,Hallmark Basal / Cytokeratin 17,52
+ESR1,Molecular,0.004956211604471471,Hallmark Estrogen Response Early/Late,53
+FOXA1,Molecular,0.004301379612284431,Hallmark Pioneer Factor for Estrogen Receptor,54
+BIRC5,Molecular,0.0041485229716026455,Hallmark Apoptosis Evasion / Mitosis,55
+TYMS,Molecular,0.0038970551882107247,Hallmark Folate Metabolism / Thymidylate Synthase,56
+ACTR3B,Molecular,0.0032656726255355724,Molecular / Transcriptomic Profile,57
+UBE2C,Molecular,0.0031903500509986252,Hallmark Ubiquitin Conjugation / Anaphase,58
+CDC20,Molecular,0.003138622652000827,Hallmark Mitotic Spindle Assembly,59
+GSTM1,Molecular,0.0025410099283170984,Molecular / Transcriptomic Profile,60
+ANLN,Molecular,0.0013557280050160215,Molecular / Transcriptomic Profile,61
+FOXC1,Molecular,0.0012545830756484416,Molecular / Transcriptomic Profile,62
+GRADE,Clinical,0.0,Clinicopathological Staging Parameter,63

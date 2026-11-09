@@ -1,0 +1,23 @@
+{
+  "discovery_platform": "Illumina HumanHT-12 v3 Microarray (METABRIC)",
+  "validation_platform": "Illumina HiSeq RNASeqV2 (TCGA-BRCA PanCanAtlas)",
+  "discovery_N": 1206,
+  "validation_N": 493,
+  "validation_events": 48,
+  "c_index_clinical_age": 0.5692973523421588,
+  "c_index_molecular_zero_shot": 0.5078411405295316,
+  "c_index_integrated": 0.44032586558044806,
+  "delta_c_index": -0.12897148676171077,
+  "top_gene_weights": {
+    "CENPF": 0.10347558181150393,
+    "PTTG1": 0.0465107692488953,
+    "AURKA": 0.03311678930876463,
+    "CDC20": 0.020137340111730156,
+    "MKI67": 0.016999302344491117,
+    "MELK": 0.0009505313287716092,
+    "UBE2C": 8.786726139829266e-08,
+    "MIA": 8.208045744159142e-08,
+    "KIF2C": 7.361452720383573e-08,
+    "EXO1": 6.554651146146617e-08
+  }
+}
