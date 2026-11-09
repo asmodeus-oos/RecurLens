@@ -1,8 +1,7 @@
 """
 RecurLens: Clinical Decision Intelligence Dashboard.
-Design Theme: Light Mode, Inspired by Modern Minimalist Fin/Health UI (Donezo design system).
-Palette: Forest Green (#1b5e3a), Mint (#41b078), Soft Sage (#d8f3e5), Clean Canvas (#f4f5f7), Pure White (#ffffff).
-TRIPOD+AI & REMARK Compliant.
+Pure Light Mode (Strict Donezo Design Language).
+No decorative filler or mock navigation elements. 100% functional clinical oncology UI.
 """
 
 from __future__ import annotations
@@ -20,124 +19,67 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Light Mode CSS inspired by Donezo UI
+# Comprehensive Strict Light Mode CSS
 st.markdown("""
 <style>
-    /* Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* Global canvas */
-    .stApp {
-        background-color: #f5f6f8;
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #1a1d1f;
+    /* Global canvas & typography */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        background-color: #f5f6f8 !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+        color: #111417 !important;
     }
 
-    /* Remove top Streamlit padding */
+    /* Strict Light Mode Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #ffffff !important;
+        border-right: 1px solid #edf0f2 !important;
+    }
+    [data-testid="stSidebar"] * {
+        color: #111417 !important;
+    }
+    [data-testid="stSidebar"] .stSelectbox label, 
+    [data-testid="stSidebar"] .stSlider label,
+    [data-testid="stSidebar"] .stFileUploader label {
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        color: #2b3036 !important;
+    }
+
+    /* Page padding */
     .block-container {
-        padding-top: 2rem;
-        padding-bottom: 3rem;
+        padding-top: 1.8rem !important;
+        padding-bottom: 2.5rem !important;
         max-width: 1400px;
     }
 
-    /* Top bar */
-    .top-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #ffffff;
-        padding: 12px 24px;
-        border-radius: 20px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-        margin-bottom: 24px;
-        border: 1px solid #edf0f2;
-    }
-    .search-pill {
-        background: #f5f6f8;
-        border-radius: 30px;
-        padding: 8px 18px;
-        color: #6f767e;
-        font-size: 13.5px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        width: 320px;
-        border: 1px solid #eef0f2;
-    }
-    .user-pill {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .user-avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #1b5e3a;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 14px;
-    }
-
     /* Page Header */
-    .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: 24px;
+    .header-container {
+        margin-bottom: 22px;
     }
-    .page-title {
-        font-size: 30px;
+    .header-title {
+        font-size: 28px;
         font-weight: 800;
         color: #111417;
         margin: 0;
         letter-spacing: -0.5px;
     }
-    .page-subtitle {
+    .header-sub {
+        font-size: 14px;
         color: #6f767e;
-        font-size: 14px;
         margin-top: 4px;
-    }
-    .action-btn-green {
-        background: #1b5e3a;
-        color: #ffffff !important;
-        font-weight: 600;
-        font-size: 14px;
-        padding: 10px 22px;
-        border-radius: 30px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 4px 12px rgba(27, 94, 58, 0.18);
-        border: none;
-    }
-    .action-btn-outline {
-        background: #ffffff;
-        color: #111417 !important;
-        font-weight: 600;
-        font-size: 14px;
-        padding: 10px 22px;
-        border-radius: 30px;
-        border: 1.5px solid #111417;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
     }
 
     /* Stat Cards */
     .stat-card-green {
         background: #164e2e;
         border-radius: 20px;
-        padding: 24px;
+        padding: 22px 24px;
         color: #ffffff;
         position: relative;
-        box-shadow: 0 4px 20px rgba(22, 78, 46, 0.15);
-        height: 165px;
+        box-shadow: 0 4px 18px rgba(22, 78, 46, 0.12);
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -145,12 +87,12 @@ st.markdown("""
     .stat-card-white {
         background: #ffffff;
         border-radius: 20px;
-        padding: 24px;
+        padding: 22px 24px;
         color: #111417;
         position: relative;
         border: 1px solid #edf0f2;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        height: 165px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -165,62 +107,61 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 13px;
+        font-weight: 700;
     }
     .stat-arrow-green {
-        background: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.18);
         color: #ffffff;
     }
     .stat-arrow-white {
-        border: 1px solid #e1e4e8;
+        border: 1px solid #e5e7eb;
         color: #111417;
-        background: #ffffff;
+        background: #fbfbfb;
     }
     .stat-label-green {
-        font-size: 13.5px;
-        color: rgba(255,255,255,0.8);
+        font-size: 13px;
+        color: rgba(255,255,255,0.85);
         font-weight: 500;
     }
     .stat-label-white {
-        font-size: 13.5px;
+        font-size: 13px;
         color: #6f767e;
         font-weight: 500;
     }
     .stat-val-green {
-        font-size: 38px;
+        font-size: 36px;
         font-weight: 800;
         color: #ffffff;
-        letter-spacing: -1px;
+        letter-spacing: -0.5px;
         line-height: 1.1;
     }
     .stat-val-white {
-        font-size: 38px;
+        font-size: 36px;
         font-weight: 800;
         color: #111417;
-        letter-spacing: -1px;
+        letter-spacing: -0.5px;
         line-height: 1.1;
     }
     .stat-badge-green {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.22);
         color: #ffffff;
         padding: 4px 10px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 600;
         width: fit-content;
     }
     .stat-badge-white {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
         background: #f4f6f8;
         color: #1b5e3a;
         padding: 4px 10px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 600;
         width: fit-content;
     }
@@ -228,17 +169,17 @@ st.markdown("""
     /* Content Cards */
     .content-box {
         background: #ffffff;
-        border-radius: 22px;
-        padding: 24px;
+        border-radius: 20px;
+        padding: 22px 24px;
         border: 1px solid #edf0f2;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        margin-bottom: 20px;
     }
     .box-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         color: #111417;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -248,40 +189,47 @@ st.markdown("""
     .pill-completed {
         background: #e8f5e9;
         color: #1b5e3a;
-        padding: 4px 12px;
-        border-radius: 14px;
-        font-size: 12px;
-        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11.5px;
+        font-weight: 700;
     }
     .pill-progress {
         background: #fff8e1;
         color: #b78103;
-        padding: 4px 12px;
-        border-radius: 14px;
-        font-size: 12px;
-        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11.5px;
+        font-weight: 700;
     }
     .pill-pending {
         background: #fde8e8;
         color: #c53030;
-        padding: 4px 12px;
-        border-radius: 14px;
-        font-size: 12px;
-        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11.5px;
+        font-weight: 700;
     }
 
-    /* Sidebar Dark Promo Card */
-    .sidebar-promo {
-        background: linear-gradient(135deg, #0d3820, #164e2e);
-        border-radius: 18px;
-        padding: 20px;
-        color: white;
-        margin-top: 30px;
+    /* Streamlit tabs override in light mode */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        border-bottom: 1px solid #edf0f2;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px 10px 0 0;
+        padding: 8px 16px;
+        font-weight: 600;
+        color: #6f767e !important;
+    }
+    .stTabs [aria-selected="true"] {
+        color: #1b5e3a !important;
+        border-bottom: 2px solid #1b5e3a !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Preset Exemplary METABRIC Patients
+# Preset Benchmark Cases from METABRIC Cohort
 PRESET_PATIENTS = {
     "Custom Parameters": {
         "age": 56, "size": 22, "nodes": 0, "grade": 2, "meno": "Post-menopausal", "pr": "Positive (≥ 20%)",
@@ -305,20 +253,20 @@ PRESET_PATIENTS = {
     }
 }
 
-# --- SIDEBAR (Light, Structured Menu) ---
+# --- SIDEBAR (Clean Functional Light Menu) ---
 with st.sidebar:
     st.markdown("""
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
         <div style="background:#1b5e3a; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:18px;">🧬</div>
-        <span style="font-size:20px; font-weight:800; color:#111417; letter-spacing:-0.5px;">RecurLens</span>
+        <span style="font-size:19px; font-weight:800; color:#111417; letter-spacing:-0.5px;">RecurLens AI</span>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-bottom:8px;'>Patient Ingestion</p>", unsafe_allow_html=True)
-    uploaded_file = st.file_uploader("Upload Lab CSV/TSV", type=["csv", "tsv", "txt"], help="Import patient gene expression & pathology report")
-    selected_preset = st.selectbox("Or Choose Benchmark Cohort Case", list(PRESET_PATIENTS.keys()))
-    
+    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-bottom:6px;'>Cohort & Data Ingestion</p>", unsafe_allow_html=True)
+    selected_preset = st.selectbox("Load Patient Case", list(PRESET_PATIENTS.keys()), label_visibility="collapsed")
     active_params = PRESET_PATIENTS[selected_preset].copy()
+
+    uploaded_file = st.file_uploader("Upload Patient CSV/TSV", type=["csv", "tsv", "txt"])
     if uploaded_file is not None:
         try:
             sep = "\t" if uploaded_file.name.endswith(".tsv") else ","
@@ -338,45 +286,35 @@ with st.sidebar:
         except Exception as e:
             st.error(f"Upload error: {e}")
 
-    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:20px; margin-bottom:8px;'>Clinicopathological Inputs</p>", unsafe_allow_html=True)
-    age = st.slider("Patient Age (Years)", 25, 85, int(active_params["age"]))
-    tumor_size_mm = st.slider("Tumor Diameter (mm)", 2, 50, int(active_params["size"]))
-    nodes = st.selectbox("Positive Axillary Nodes", [0, 1, 2, 3], index=int(min(3, active_params["nodes"])))
-    grade = st.selectbox("Histologic Grade", [1, 2, 3], index=int(active_params["grade"] - 1),
-                         format_func=lambda g: f"Nottingham Grade {g}")
+    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:16px; margin-bottom:6px;'>Clinicopathological Variables</p>", unsafe_allow_html=True)
+    age = st.slider("Patient Age at Diagnosis", 25, 85, int(active_params["age"]))
+    tumor_size_mm = st.slider("Pathological Tumor Size (mm)", 2, 50, int(active_params["size"]))
+    nodes = st.selectbox("Positive Axillary Lymph Nodes", [0, 1, 2, 3], index=int(min(3, active_params["nodes"])))
+    grade = st.selectbox("Nottingham Histologic Grade", [1, 2, 3], index=int(active_params["grade"] - 1),
+                         format_func=lambda g: f"Grade {g}")
 
-    # Advanced Inputs (Menopausal & PR)
-    with st.expander("🔬 Advanced Clinical Variables", expanded=False):
-        meno_status = st.selectbox("Menopausal State", ["Post-menopausal", "Pre-menopausal", "Peri-menopausal"],
+    with st.expander("🔬 Additional Clinical Parameters", expanded=False):
+        meno_status = st.selectbox("Menopausal Status", ["Post-menopausal", "Pre-menopausal", "Peri-menopausal"],
                                    index=0 if active_params.get("meno") == "Post-menopausal" else 1)
         pr_status = st.selectbox("Progesterone Receptor (PR)", ["Positive (≥ 20%)", "Low / Negative (< 20%)"],
                                  index=0 if "≥" in active_params.get("pr", "≥") else 1)
         ki67_mode = st.radio("Ki-67 Input Mode", ["RNA Z-Score", "Hospital Pathology IHC %"])
 
-    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:20px; margin-bottom:8px;'>Transcriptomic Drivers</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:16px; margin-bottom:6px;'>Transcriptomic Drivers</p>", unsafe_allow_html=True)
     if ki67_mode == "Hospital Pathology IHC %":
         ki67_pct = st.slider("Pathology Ki-67 Index (%)", 1, 90, 20)
-        # Convert IHC % to standard z-score approximation
         mki67 = (ki67_pct - 20.0) / 15.0
     else:
         mki67 = st.slider("MKI67 (Ki-67 Mitosis z-score)", -2.5, 3.0, float(active_params["mki67"]), 0.05)
 
-    mmp11 = st.slider("MMP11 (Stromal Invasion)", -2.5, 3.0, float(active_params["mmp11"]), 0.05)
+    mmp11 = st.slider("MMP11 (Stromal ECM Invasion)", -2.5, 3.0, float(active_params["mmp11"]), 0.05)
     cenpf = st.slider("CENPF (Centromere Spindle)", -2.5, 3.0, float(active_params["cenpf"]), 0.05)
-    aurka = st.slider("AURKA (Centrosome Kinase)", -2.5, 3.0, float(active_params["aurka"]), 0.05)
+    aurka = st.slider("AURKA (Centrosome Spindle)", -2.5, 3.0, float(active_params["aurka"]), 0.05)
     esr1 = st.slider("ESR1 (Estrogen Receptor)", -2.5, 3.0, float(active_params["esr1"]), 0.05)
 
-    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:20px; margin-bottom:8px;'>Therapy Simulation</p>", unsafe_allow_html=True)
-    simulate_chemo = st.checkbox("Simulate Adjuvant Chemotherapy", value=True)
-    chemo_rr = st.slider("Chemo Relative Risk Reduction (%)", 10, 40, 25, 5)
-
-    st.markdown("""
-    <div class="sidebar-promo">
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8;">Protocol Validation</div>
-        <div style="font-size:15px; font-weight:700; margin:4px 0 8px 0;">TRIPOD+AI Certified</div>
-        <div style="font-size:12px; line-height:1.4; opacity:0.85;">Model validated on 1,102 METABRIC patients with 14-year complete follow-up.</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<p style='font-size:11px; font-weight:700; color:#8c9098; text-transform:uppercase; margin-top:16px; margin-bottom:6px;'>Adjuvant Chemo Simulation</p>", unsafe_allow_html=True)
+    simulate_chemo = st.checkbox("Simulate Cytotoxic Chemotherapy", value=True)
+    chemo_rr = st.slider("Relative Risk Reduction (%)", 10, 40, 25, 5, help="Standard EBCTCG trial meta-analysis = 25% RRR")
 
 # --- QUANTITATIVE ENGINE ---
 node_grp = 0 if nodes == 0 else 1
@@ -399,7 +337,7 @@ else:
     cts5_tier = "High Risk"
     cts5_desc = "> 10% 10y risk"
 
-# Model B & C Calculations
+# Model B & C Late Fusion
 lp_mol = 0.1035 * cenpf + 0.0465 * mki67 + 0.0331 * aurka + 0.0500 * mmp11 - 0.0350 * esr1
 lp_clin = -0.0039 * age + 0.0191 * tumor_size_mm + 0.1705 * nodes + 0.2180 * grade
 gamma_clin, gamma_mol = 0.7565, 1.6258
@@ -422,43 +360,18 @@ delta_risk = (risk_5yr_int - risk_5yr_clin) * 100.0
 
 patient_id = active_params.get("id", "Patient-Case")
 
-# --- TOP SEARCH & USER BAR ---
+# --- HEADER (Clean Functional) ---
 st.markdown(f"""
-<div class="top-bar">
-    <div class="search-pill">
-        <span>🔍</span>
-        <span>Search case: {patient_id}</span>
-        <span style="margin-left:auto; background:#ffffff; border-radius:6px; padding:2px 8px; font-size:11px; font-weight:700; color:#111;">⌘F</span>
-    </div>
-    <div class="user-pill">
-        <div style="background:#f4f6f8; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px;">🔔</div>
-        <div class="user-avatar">DR</div>
-        <div>
-            <div style="font-size:13.5px; font-weight:700; color:#111417; line-height:1.2;">Dr. Vlad</div>
-            <div style="font-size:11.5px; color:#6f767e;">Multidisciplinary Oncology</div>
-        </div>
-    </div>
+<div class="header-container">
+    <h1 class="header-title">RecurLens Intelligence Engine</h1>
+    <div class="header-sub">Explainable multimodal recurrence risk stratification for early-stage ER+/HER2- breast cancer. Active case: <strong>{patient_id}</strong>.</div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- PAGE TITLE & ACTION BUTTONS ---
-st.markdown(f"""
-<div class="page-header">
-    <div>
-        <h1 class="page-title">Recurrence Intelligence Dashboard</h1>
-        <div class="page-subtitle">Explainable molecular prognosis for early-stage ER+/HER2- breast cancer.</div>
-    </div>
-    <div style="display:flex; gap:12px;">
-        <span class="action-btn-green">＋ Active Case: {patient_id}</span>
-        <span class="action-btn-outline">📊 TRIPOD+AI Audited</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+# --- 4 KPI CARDS (Donezo Palette: 1 Forest Green + 3 Clean White) ---
+c1, c2, c3, c4 = st.columns(4)
 
-# --- 4 TOP METRIC CARDS (Donezo-style: 1 Deep Green + 3 Clean White) ---
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
+with c1:
     st.markdown(f"""
     <div class="stat-card-green">
         <div class="stat-arrow stat-arrow-green">↗</div>
@@ -468,7 +381,7 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
 
-with col2:
+with c2:
     st.markdown(f"""
     <div class="stat-card-white">
         <div class="stat-arrow stat-arrow-white">↗</div>
@@ -478,7 +391,7 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-with col3:
+with c3:
     st.markdown(f"""
     <div class="stat-card-white">
         <div class="stat-arrow stat-arrow-white">↗</div>
@@ -488,7 +401,7 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-with col4:
+with c4:
     st.markdown(f"""
     <div class="stat-card-white">
         <div class="stat-arrow stat-arrow-white">↗</div>
@@ -498,47 +411,46 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
 
-# --- MIDDLE SECTION: BIOMARKER ACTIVITY & ACTIONABLE CLINICAL GUIDANCE ---
-mid_col1, mid_col2 = st.columns([1.1, 1.4])
+# --- MIDDLE SECTION: BIOMARKERS & CLINICAL GUIDANCE ---
+m_col1, m_col2 = st.columns([1.1, 1.4])
 
-with mid_col1:
+with m_col1:
     st.markdown("""
     <div class="content-box">
         <div class="box-title">
             <span>🧬 Biomarker Expression Activity</span>
             <span class="pill-completed">5 Drivers</span>
         </div>
-        <div style="font-size:12.5px; color:#6f767e; margin-bottom:14px;">Normalized cohort z-scores relative to diploid baseline:</div>
+        <div style="font-size:12.5px; color:#6f767e; margin-bottom:12px;">Normalized cohort z-scores relative to diploid baseline:</div>
     """, unsafe_allow_html=True)
     
     biomarkers = [
-        ("MKI67 (Ki-67)", mki67, "Mitotic Proliferation", "#1b5e3a"),
-        ("MMP11 (Stromelysin-3)", mmp11, "Stromal ECM Invasion", "#2d8a56"),
-        ("CENPF (Centromere F)", cenpf, "Chromosome Segregation", "#41b078"),
-        ("AURKA (Aurora Kinase A)", aurka, "Centrosome Spindle", "#5fbd90"),
-        ("ESR1 (Estrogen Receptor)", esr1, "Endocrine Sensitivity", "#7cb299")
+        ("MKI67 (Ki-67)", mki67, "#1b5e3a"),
+        ("MMP11 (Stromelysin-3)", mmp11, "#2d8a56"),
+        ("CENPF (Centromere F)", cenpf, "#41b078"),
+        ("AURKA (Aurora Kinase A)", aurka, "#5fbd90"),
+        ("ESR1 (Estrogen Receptor)", esr1, "#7cb299")
     ]
     
-    for name, val, role, bar_col in biomarkers:
+    for name, val, bar_col in biomarkers:
         pct_width = int(np.clip((val + 2.5) / 5.5 * 100, 5, 95))
         st.markdown(f"""
-        <div style="margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:4px;">
+        <div style="margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:600; margin-bottom:3px;">
                 <span>{name}</span>
-                <span style="color:{bar_col};">{val:+.2f} z-score</span>
+                <span style="color:{bar_col}; font-weight:700;">{val:+.2f} z-score</span>
             </div>
-            <div style="background:#eef0f2; border-radius:10px; height:8px; overflow:hidden;">
-                <div style="background:{bar_col}; width:{pct_width}%; height:8px; border-radius:10px;"></div>
+            <div style="background:#eef0f2; border-radius:10px; height:7px; overflow:hidden;">
+                <div style="background:{bar_col}; width:{pct_width}%; height:7px; border-radius:10px;"></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
         
     st.markdown("</div>", unsafe_allow_html=True)
 
-with mid_col2:
-    # Clinical Guidance Box (Light Mode styled)
+with m_col2:
     if risk_5yr_int < 0.10:
         badge_class = "pill-completed"
         badge_text = "Chemotherapy Sparing Candidate"
@@ -555,7 +467,7 @@ with mid_col2:
         action_desc = (
             f"Patient demonstrates intermediate 5-year recurrence risk ({risk_5yr_int*100:.1f}%). "
             f"Simulated absolute chemotherapy risk reduction is {arr_5yr:.1f}% (NNT ≈ {nnt_5yr}). "
-            f"Decision should integrate menopausal status ({meno_status}), patient comorbidities, and toxicity preference."
+            f"Decision should integrate menopausal status ({meno_status}), comorbidities, and patient toxicity preference."
         )
     else:
         badge_class = "pill-pending"
@@ -573,16 +485,13 @@ with mid_col2:
             <span>📋 Clinical Action Recommendation</span>
             <span class="{badge_class}">{badge_text}</span>
         </div>
-        <div style="font-size:16px; font-weight:700; color:#111417; margin-bottom:8px;">{action_title}</div>
-        <div style="font-size:13.5px; color:#4a5056; line-height:1.55; margin-bottom:20px;">{action_desc}</div>
-        <div style="display:flex; gap:12px; align-items:center;">
-            <span class="action-btn-green">✓ Protocol Certified</span>
-            <span style="font-size:12.5px; color:#6f767e;">Guideline Concordance: ASCO / NCCN v2.2024</span>
-        </div>
+        <div style="font-size:15.5px; font-weight:700; color:#111417; margin-bottom:6px;">{action_title}</div>
+        <div style="font-size:13px; color:#4a5056; line-height:1.55; margin-bottom:14px;">{action_desc}</div>
+        <div style="font-size:12px; color:#6f767e;">Guideline Concordance: ASCO 2022 / NCCN v2.2024</div>
     </div>
     """, unsafe_allow_html=True)
 
-# --- DUAL-PERSPECTIVE FINAL VERDICT (Clean Light Tabs) ---
+# --- DUAL-PERSPECTIVE FINAL VERDICT SECTION ---
 st.markdown("""
 <div class="content-box">
     <div class="box-title">
@@ -600,12 +509,10 @@ with tab_med:
     st.markdown(f"""
     * **Pathological Diagnosis:** Invasive Breast Carcinoma, ER+/HER2- (pT{1 if tumor_size_mm<=20 else 2} pN{0 if nodes==0 else 1}, Nottingham Grade {grade}).
     * **Clinical-Genomic Concordance:** **{cts5_tier} Anatomic Staging** paired with **{risk_5yr_int*100:.1f}% 5-Year Integrated Molecular Risk**.
-    * **Statistical Performance & Evidence:**
-      * Validated on N = 1,102 METABRIC patients with complete follow-up (ΔC = +0.0360, p = 5.05e-8).
-      * 5-Year Continuous Net Reclassification Improvement: **NRI = +36.1%** (p < 0.001).
+    * **Statistical Evidence:** Validated on N = 1,102 METABRIC patients with complete follow-up (ΔC = +0.0360, p = 5.05e-8). 5-Year Continuous NRI = +36.1% (p < 0.001).
     * **Systemic Therapy Protocol:**
       1. **Endocrine Regimen:** 5–10 years of Aromatase Inhibitor (± OFS if pre-menopausal).
-      2. **Cytotoxic Chemotherapy:** {"Overtreatment warning: absolute benefit < 1.5%, sparing strongly recommended." if risk_5yr_int < 0.10 else ("Intermediate benefit zone: discuss marginal benefit vs toxicity." if risk_5yr_int <= 0.15 else f"Taxane/anthracycline-based regimen recommended (+{arr_5yr:.1f}% ARR).")}
+      2. **Cytotoxic Chemotherapy:** {"Overtreatment warning: absolute benefit < 1.5%, sparing strongly recommended." if risk_5yr_int < 0.10 else ("Intermediate benefit zone: discuss marginal benefit vs toxicity." if risk_5yr_int <= 0.15 else f"Taxane/anthracycline-based chemotherapy recommended (+{arr_5yr:.1f}% ARR).")}
     """)
 
 with tab_plain:
@@ -645,7 +552,7 @@ with tab_plain:
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-# --- VISUALIZATION CHARTS (Light Mode Styled) ---
+# --- VISUALIZATION CHARTS ---
 chart_c1, chart_c2 = st.columns(2)
 
 with chart_c1:
@@ -661,7 +568,7 @@ with chart_c1:
     surv_clin = np.exp(-h_base * hr_clin) * 100.0
     surv_int = np.exp(-h_base * hr_integrated) * 100.0
     
-    fig, ax = plt.subplots(figsize=(7, 4.6), dpi=140, facecolor="#ffffff")
+    fig, ax = plt.subplots(figsize=(7, 4.4), dpi=140, facecolor="#ffffff")
     ax.set_facecolor("#ffffff")
     ax.plot(time_pts, surv_clin, label=f"Clinical Baseline (5y: {(1-risk_5yr_clin)*100:.1f}%)",
             color="#6f767e", linestyle="--", linewidth=1.8)
@@ -675,8 +582,8 @@ with chart_c1:
         
     ax.axvline(x=5.0, color="#d0d5dd", linestyle=":", label="5-Year Early Window")
     ax.set_ylim(40, 102)
-    ax.set_xlabel("Years Since Definitive Resection", fontsize=9.5, fontweight="600", color="#111")
-    ax.set_ylabel("Recurrence-Free Survival (%)", fontsize=9.5, fontweight="600", color="#111")
+    ax.set_xlabel("Years Since Definitive Resection", fontsize=9, fontweight="600", color="#111")
+    ax.set_ylabel("Recurrence-Free Survival (%)", fontsize=9, fontweight="600", color="#111")
     ax.grid(True, linestyle="--", alpha=0.35, color="#e5e7eb")
     ax.legend(loc="lower left", fontsize=8.5, frameon=True, facecolor="#ffffff", edgecolor="#e5e7eb")
     
@@ -705,7 +612,7 @@ with chart_c2:
         -0.0350 * esr1 * gamma_mol
     ]
     
-    fig2, ax2 = plt.subplots(figsize=(7, 4.6), dpi=140, facecolor="#ffffff")
+    fig2, ax2 = plt.subplots(figsize=(7, 4.4), dpi=140, facecolor="#ffffff")
     ax2.set_facecolor("#ffffff")
     bar_cols = ["#dc3545" if s > 0 else "#1b5e3a" for s in shaps]
     y_pos = np.arange(len(feats))
@@ -714,7 +621,7 @@ with chart_c2:
     ax2.set_yticklabels(feats, fontsize=9, color="#111")
     ax2.invert_yaxis()
     ax2.axvline(x=0, color="#111417", linewidth=0.8)
-    ax2.set_xlabel("Relative Log-Hazard Contribution (Green = Protective, Red = Adverse)", fontsize=8.5, fontweight="600", color="#111")
+    ax2.set_xlabel("Log-Hazard Contribution (Green = Protective, Red = Adverse)", fontsize=8.5, fontweight="600", color="#111")
     ax2.grid(True, axis="x", linestyle="--", alpha=0.35, color="#e5e7eb")
     
     for spine in ax2.spines.values():
@@ -723,7 +630,7 @@ with chart_c2:
     st.pyplot(fig2)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# --- EXPORT REPORT BUTTON ---
+# --- REPORT EXPORT ---
 report_html = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -735,7 +642,6 @@ report_html = f"""<!DOCTYPE html>
     table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
     th, td {{ border: 1px solid #e5e7eb; padding: 10px; font-size: 13.5px; text-align: left; }}
     th {{ background: #f8f9fa; font-weight: 700; }}
-    .badge {{ background: #e8f5e9; color: #1b5e3a; padding: 4px 10px; border-radius: 12px; font-weight: 700; }}
 </style>
 </head>
 <body>
@@ -753,7 +659,7 @@ report_html = f"""<!DOCTYPE html>
     <tr><td>Nottingham Grade</td><td>Grade {grade}</td><td>AURKA (Spindle)</td><td>{aurka:+.2f}</td></tr>
     <tr><td>CTS5 Score</td><td>{cts5_score:.2f} ({cts5_tier})</td><td>ESR1 (Estrogen)</td><td>{esr1:+.2f}</td></tr>
 </table>
-<p><em>RecurLens 5-Year Integrated Recurrence Risk: <strong>{risk_5yr_int*100:.1f}%</strong> (Clinical Baseline: {risk_5yr_clin*100:.1f}%). Projected Chemo Benefit ARR: <strong>+{arr_5yr:.1f}%</strong> (NNT: {nnt_5yr}).</em></p>
+<p><em>RecurLens 5-Year Integrated Risk: <strong>{risk_5yr_int*100:.1f}%</strong> (Clinical Baseline: {risk_5yr_clin*100:.1f}%). Projected Chemo Benefit ARR: <strong>+{arr_5yr:.1f}%</strong> (NNT: {nnt_5yr}).</em></p>
 </body>
 </html>
 """
