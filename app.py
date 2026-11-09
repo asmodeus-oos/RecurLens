@@ -211,52 +211,108 @@ st.markdown("""
         font-weight: 700;
     }
 
-    /* Streamlit tabs override in light mode: Padded rounded tabs, borderless container */
+    /* Streamlit 1.67+ React-Aria Tabs & BaseWeb Fallback */
+    /* 1. Remove the entire horizontal line under the tabs (react-aria uses ::after on [role="tablist"]) */
+    [data-testid="stTabs"] [role="tablist"]::after,
+    .stTabs [role="tablist"]::after,
+    [data-testid="stTabs"] [data-baseweb="tab-border"],
+    .stTabs [data-baseweb="tab-border"],
+    [data-testid="stTabs"] [data-baseweb="tab-list"]::after {
+        display: none !important;
+        content: none !important;
+        height: 0px !important;
+        border: none !important;
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+
+    /* 2. Hide active indicator underlines */
+    [data-testid="stTabs"] .react-aria-SelectionIndicator,
+    .stTabs .react-aria-SelectionIndicator,
+    [data-testid="stTabs"] [data-baseweb="tab-highlight"],
+    .stTabs [data-baseweb="tab-highlight"] {
+        display: none !important;
+        height: 0px !important;
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+
+    /* 3. Style the tab list container */
+    [data-testid="stTabs"] [role="tablist"],
+    .stTabs [role="tablist"],
+    [data-testid="stTabs"] [data-baseweb="tab-list"],
     .stTabs [data-baseweb="tab-list"] {
         gap: 12px !important;
         border: none !important;
         border-bottom: none !important;
         padding-top: 4px !important;
-        padding-bottom: 12px !important;
-        margin-bottom: 14px !important;
-        background-color: transparent !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+        background: transparent !important;
     }
-    .stTabs [data-baseweb="tab-border"] {
-        display: none !important;
-        height: 0px !important;
-        border: none !important;
-    }
-    .stTabs [data-baseweb="tab-highlight"] {
-        display: none !important;
-        height: 0px !important;
-        background-color: transparent !important;
-    }
+
+    /* 4. Tab buttons: Generous padding, rounded pill/card corners */
+    [data-testid="stTabs"] [role="tab"],
+    [data-testid="stTab"],
+    button[data-testid="stTab"],
+    .stTabs [role="tab"],
     .stTabs [data-baseweb="tab"] {
         background-color: #f1f3f5 !important;
-        border-radius: 18px !important;
-        padding: 12px 24px !important;
+        border-radius: 20px !important;
+        padding: 10px 22px !important;
         font-weight: 700 !important;
         font-size: 13.5px !important;
         color: #555d67 !important;
-        border: 1px solid #e9ecef !important;
+        border: 1px solid #e2e5e9 !important;
         transition: all 0.2s ease !important;
         height: auto !important;
+        min-height: 42px !important;
+        box-sizing: border-box !important;
+        cursor: pointer !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
-    .stTabs [data-baseweb="tab"]:hover {
-        background-color: #e9ecef !important;
+
+    /* 5. Hover state */
+    [data-testid="stTabs"] [role="tab"]:hover,
+    [data-testid="stTabs"] [role="tab"][data-hovered],
+    button[data-testid="stTab"]:hover,
+    button[data-testid="stTab"][data-hovered],
+    .stTabs [role="tab"]:hover {
+        background-color: #e5e8ec !important;
         color: #111417 !important;
-        border-color: #dee2e6 !important;
+        border-color: #d0d5dd !important;
     }
-    .stTabs [aria-selected="true"] {
+
+    /* 6. Active / Selected state (react-aria uses [data-selected], BaseWeb uses [aria-selected="true"]) */
+    [data-testid="stTabs"] [role="tab"][data-selected],
+    [data-testid="stTabs"] [role="tab"][aria-selected="true"],
+    button[data-testid="stTab"][data-selected],
+    button[data-testid="stTab"][aria-selected="true"],
+    .stTabs [role="tab"][data-selected],
+    .stTabs [role="tab"][aria-selected="true"],
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
         background-color: #1b5e3a !important;
         color: #ffffff !important;
         border: 1px solid #1b5e3a !important;
-        box-shadow: 0 3px 12px rgba(27, 94, 58, 0.20) !important;
+        box-shadow: 0 4px 14px rgba(27, 94, 58, 0.24) !important;
     }
-    .stTabs [aria-selected="true"] * {
+
+    /* 7. Child typography inside tab buttons */
+    [data-testid="stTabs"] [role="tab"] *,
+    [data-testid="stTab"] * {
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+    }
+    [data-testid="stTabs"] [role="tab"][data-selected] *,
+    [data-testid="stTabs"] [role="tab"][aria-selected="true"] *,
+    button[data-testid="stTab"][data-selected] *,
+    button[data-testid="stTab"][aria-selected="true"] * {
         color: #ffffff !important;
     }
-    .stTabs [aria-selected="false"] * {
+    [data-testid="stTabs"] [role="tab"]:not([data-selected]):not([aria-selected="true"]) *,
+    button[data-testid="stTab"]:not([data-selected]):not([aria-selected="true"]) * {
         color: #555d67 !important;
     }
 
