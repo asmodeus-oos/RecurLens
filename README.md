@@ -67,7 +67,13 @@ source .venv/bin/activate
 pip install -r <(echo "lifelines scikit-learn shap streamlit pandas numpy pyarrow pytest matplotlib")
 ```
 
-### 2. Run Tests
+### 2. Raw Datasets (Google Drive)
+Preprocessed curated cohort matrices are included in `data/processed/`. The large raw transcriptomic matrices are hosted on Google Drive:
+- 📁 **[RecurLens Raw Data Folder](https://drive.google.com/open?id=18Ei60pfr-o34D5uAiILBBXR5xSBeAHm5)**
+- 🧬 **[METABRIC Microarray mRNA z-scores (303 MB)](https://drive.google.com/open?id=1mt8bud3-nuXImgTClalYmbVUv9rx9_Xl)** (`data/raw/data_mrna_illumina_microarray_zscores_ref_diploid_samples.txt`)
+- 🧪 **[TCGA PanCanAtlas RNA-seq z-scores (168 MB)](https://drive.google.com/open?id=12MHHbKj-e87QiRAuJMkINSattqEofrMH)** (`data/raw/tcga_data_mrna_seq_v2_rsem_zscores.txt`)
+
+### 3. Run Tests
 Verify pipeline integrity and survival calculation units:
 
 ```bash
