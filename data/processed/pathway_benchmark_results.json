@@ -1,0 +1,22 @@
+{
+  "discovery_pathway_c_index": 0.6200944692444229,
+  "external_pathway_c_index": 0.5318737270875764,
+  "pathway_hazard_ratios": {
+    "Hallmark_G2M_Checkpoint": 1.2488725120287385,
+    "Hallmark_E2F_Targets": 1.0000001068917954,
+    "Hallmark_Estrogen_Response": 0.999999878975511,
+    "Hallmark_Invasion_EMT": 1.0432467279407724,
+    "Hallmark_HER2_Amplicon": 1.0000000082475677,
+    "Hallmark_Apoptosis_Regulation": 0.999999785470866,
+    "Hallmark_Macrophage_Immune": 0.9999996963740035
+  },
+  "p_values": {
+    "Hallmark_G2M_Checkpoint": 4.289138305923343e-06,
+    "Hallmark_E2F_Targets": 0.9991876947497883,
+    "Hallmark_Estrogen_Response": 0.999096752930967,
+    "Hallmark_Invasion_EMT": 0.3798218551854594,
+    "Hallmark_HER2_Amplicon": 0.9999330853463224,
+    "Hallmark_Apoptosis_Regulation": 0.9986434175361286,
+    "Hallmark_Macrophage_Immune": 0.998453898871409
+  }
+}
